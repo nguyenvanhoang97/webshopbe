@@ -11,7 +11,7 @@ const httpCode = {
   FORBIDDEN: 403,
   ADMIN_REQUIRE: 406
 }
-// mongodb://<dbuser>:<dbpassword>@ds117070.mlab.com:17070/webshop
+
 const dbSettings = {
   db: process.env.DB || 'menu',
   user: process.env.DB_USER || '',
