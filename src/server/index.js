@@ -21,6 +21,10 @@ const start = (container) => {
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
     app.use(helmet())
+    app.use(function (req, res, next) {
+      res.setHeader('Cross-Origin-Resource-Policy', 'same-site')
+      next()
+    })
     app.use(verifyAccessToken)
     app.use((err, req, res, next) => {
       reject(new Error('Something went wrong!, err:' + err))

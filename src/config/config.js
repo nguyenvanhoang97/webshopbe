@@ -1,5 +1,5 @@
 const serverSettings = {
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 4000,
   basePath: process.env.BASE_PATH || ''
 }
 const httpCode = {
