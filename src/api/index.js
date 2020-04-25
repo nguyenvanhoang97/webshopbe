@@ -17,4 +17,8 @@ module.exports = (container, app) => {
     res.message('ok')
     res.json(sp)
   })
+
+  app.get('/adduser', (req, res) => {
+    res.message('ok')
+  })
 }
