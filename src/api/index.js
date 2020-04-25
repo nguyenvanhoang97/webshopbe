@@ -1,6 +1,7 @@
 module.exports = (container, app) => {
   const sp = [
     {
+      id: 1,
       price: 10000,
       name: 'San pham 1'
     },
@@ -16,9 +17,5 @@ module.exports = (container, app) => {
   app.get('/', (req, res) => {
     res.message('ok')
     res.json(sp)
-  })
-
-  app.get('/adduser', (req, res) => {
-    res.message('ok')
   })
 }
