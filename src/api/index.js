@@ -14,6 +14,7 @@ module.exports = (container, app) => {
     }
   ]
   app.get('/', (req, res) => {
+    res.message('ok')
     res.json(sp)
   })
 }
