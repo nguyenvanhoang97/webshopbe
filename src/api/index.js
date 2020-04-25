@@ -1,7 +1,6 @@
 module.exports = (container, app) => {
   const sp = [
     {
-      id: 1,
       price: 10000,
       name: 'San pham 1'
     },
