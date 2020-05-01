@@ -1,19 +1,8 @@
 module.exports = (container, app) => {
-  const sp = [
-    {
-      price: 10000,
-      name: 'San pham 1'
-    },
-    {
-      price: 20000,
-      name: 'San pham 2'
-    },
-    {
-      price: 30000,
-      name: 'San pham 3'
-    }
-  ]
-  app.get('/', (req, res) => {
-    res.json(sp)
-  })
+  require('./userApi')(app, container)
+  require('./productApi')(app, container)
+  require('./commentApi')(app, container)
+  require('./newsApi')(app, container)
+  require('./cartApi')(app, container)
+  require('./orderApi')(app, container)
 }
