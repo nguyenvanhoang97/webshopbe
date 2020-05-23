@@ -6,6 +6,8 @@ module.exports = (container) => {
   const addProduct = async (req, res) => {
     try {
       const product = req.body
+      const file = req.file
+      product.image = file.path
       const { error, value } = Product.validate(product)
       if (!error) {
         const product = await productRepo.addProduct(value)
@@ -35,5 +37,41 @@ module.exports = (container) => {
       res.status(500).send({ ok: false, msg: e.message })
     }
   }
-  return { addProduct, getProduct, getProductId }
+  const deleteProduct = async (req, res) => {
+    try {
+      const id = req.params.id
+      const product = await productRepo.deleteProduct(id)
+      res.status(200).send(product)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const addCommentProduct = async (req, res) => {
+    try {
+      const id = req.params.id
+      const comment = req.body
+      const product = await productRepo.addCommentProduct(id, comment)
+      res.status(200).send(product)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const updateProduct = async (req, res) => {
+    try {
+      const id = req.params.id
+      const product = req.body
+      const file = req.file
+      product.image = file.path
+      const { error, value } = Product.validate(product)
+      if (!error) {
+        const product = await productRepo.updateProduct(id, value)
+        res.status(200).send(product)
+      } else {
+        res.status(400).send({ ok: false, msg: error.message })
+      }
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  return { addProduct, getProduct, getProductId, deleteProduct, addCommentProduct, updateProduct }
 }

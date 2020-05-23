@@ -1,10 +1,10 @@
 const joi = require('@hapi/joi')
 const mongoose = require('mongoose')
 module.exports = (container) => {
-  const User = require('./user.model')(joi, mongoose)
-  const Product = require('./product.model')(joi, mongoose)
   const Comment = require('./comment.model')(joi, mongoose)
+  const Product = require('./product.model')(joi, mongoose)
   const News = require('./news.model')(joi, mongoose)
+  const User = require('./user.model')(joi, mongoose)
   const Cart = require('./cart.model')(joi, mongoose)
   const Order = require('./order.model')(joi, mongoose)
   const schemas = { User, Product, Comment, News, Cart, Order }

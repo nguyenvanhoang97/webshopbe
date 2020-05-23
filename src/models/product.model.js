@@ -6,7 +6,8 @@ module.exports = (joi, mongoose) => {
     amount: Number,
     dateCreate: { type: Date, default: Date.now },
     dateUpdate: { type: Date, default: Date.now },
-    description: String
+    description: String,
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }]
   })
   const schema = joi.object({
     name: joi.string().required(),
@@ -20,6 +21,5 @@ module.exports = (joi, mongoose) => {
   productSchema.statics.validate = (obj) => {
     return schema.validate(obj)
   }
-
   return mongoose.model('product', productSchema)
 }

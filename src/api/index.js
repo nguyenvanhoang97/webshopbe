@@ -5,4 +5,5 @@ module.exports = (container, app) => {
   require('./newsApi')(app, container)
   require('./cartApi')(app, container)
   require('./orderApi')(app, container)
+  require('./fileApi')(app, container)
 }

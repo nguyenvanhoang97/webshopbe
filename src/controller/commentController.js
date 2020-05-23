@@ -8,7 +8,7 @@ module.exports = (container) => {
       const comment = req.body
       const { error, value } = Comment.validate(comment)
       if (!error) {
-        const comment = await commentRepo.addUser(value)
+        const comment = await commentRepo.addComment(value)
         res.status(200).send(comment)
       } else {
         res.status(400).send({ ok: false, msg: error.message })
@@ -18,5 +18,14 @@ module.exports = (container) => {
       res.send({ ok: false, msg: e.message })
     }
   }
-  return { addComment }
+  const getCommentId = async (req, res) => {
+    try {
+      const id = req.params.id
+      const comment = await commentRepo.getCommentId(id)
+      res.status(200).send(comment)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  return { addComment, getCommentId }
 }

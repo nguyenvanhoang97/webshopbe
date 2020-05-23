@@ -5,6 +5,8 @@ module.exports = container => {
     const comment = new Comment(c)
     return comment.save()
   }
-  return { addComment }
+  const getCommentId = (id) => {
+    return Comment.find({id_product: id})
+  }
+  return { addComment, getCommentId }
 }
-

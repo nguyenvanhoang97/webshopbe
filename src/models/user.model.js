@@ -5,7 +5,8 @@ module.exports = (joi, mongoose) => {
     dateCreate: { type: Date, default: Date.now },
     dateUpdate: { type: Date, default: Date.now },
     isAdmin: Boolean,
-    password: String
+    password: String,
+    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cart' }]
   })
   const schema = joi.object({
     name: joi.string().required(),

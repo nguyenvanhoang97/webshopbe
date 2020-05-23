@@ -5,6 +5,7 @@ module.exports = (container) => {
   const { Cart } = schemas
   const addCart = async (req, res) => {
     try {
+      const user = req.user
       const cart = req.body
       const { error, value } = Cart.validate(cart)
       if (!error) {
@@ -18,5 +19,23 @@ module.exports = (container) => {
       res.send({ ok: false, msg: e.message })
     }
   }
-  return { addCart }
+  const getCart = async (req, res) => {
+    try {
+      const id = req.body.id
+      const cart = await cartRepo.getCart(id)
+      res.status(200).send(cart)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const deleteCart = async (req, res) => {
+    try {
+      const id = req.params.id
+      const user = await cartRepo.deleteCart(id)
+      res.status(200).send(user)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  return { addCart, getCart, deleteCart }
 }

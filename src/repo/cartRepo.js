@@ -5,5 +5,11 @@ module.exports = container => {
     const cart = new Cart(c)
     return cart.save()
   }
-  return { addCart }
+  const getCart = (id) => {
+    return Cart.findById({id_user: id})
+  }
+  const deleteCart = (id) => {
+    return Cart.findByIdAndDelete(id)
+  }
+  return { addCart, getCart, deleteCart }
 }

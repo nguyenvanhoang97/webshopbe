@@ -10,7 +10,8 @@ module.exports = (joi, mongoose) => {
     email: String,
     dateCreate: { type: Date, default: Date.now },
     dateUpdate: { type: Date, default: Date.now },
-    note: String
+    note: String,
+    tongtien: Number
   })
   const schema = joi.object({
     id_user: joi.string().required(),
@@ -23,7 +24,8 @@ module.exports = (joi, mongoose) => {
     email: joi.string().required(),
     dateCreate: joi.date(),
     dateUpdate: joi.date(),
-    note: joi.string().required()
+    note: joi.string().required(),
+    tongtien: joi.number()
   })
   orderSchema.statics.validate = (obj) => {
     return schema.validate(obj)

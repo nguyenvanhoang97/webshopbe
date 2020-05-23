@@ -18,5 +18,51 @@ module.exports = (container) => {
       res.send({ ok: false, msg: e.message })
     }
   }
-  return { addNews }
+  const getNews = async (req, res) => {
+    try {
+      const news = await newsRepo.getNews()
+      res.status(200).send(news)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const getNewsId = async (req, res) => {
+    try {
+      const id = req.params.id
+      const news = await newsRepo.getNewsId(id)
+      res.status(200).send(news)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const deleteNews = async (req, res) => {
+    try {
+      const id = req.params.id
+      const news = await newsRepo.deleteNews(id)
+      res.status(200).send(news)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const updateNews = async (req, res) => {
+    try {
+      const id = req.params.id
+      const data = req.body
+      const news = await newsRepo.updateNews(id, data)
+      res.status(200).send(news)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const addCommentNews = async (req, res) => {
+    try {
+      const id = req.params.id
+      const comment = req.body
+      const news = await newsRepo.addCommentNews(id, comment)
+      res.status(200).send(news)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  return { addNews, getNews, getNewsId, deleteNews, updateNews, addCommentNews }
 }
