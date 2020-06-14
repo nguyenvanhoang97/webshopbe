@@ -9,19 +9,21 @@ module.exports = container => {
     return News.find()
   }
   const getNewsId = (id) => {
-    return News.findById(id)
+    return News.findById(id).populate('comments')
   }
   const deleteNews = (id) => {
     return News.findByIdAndDelete(id)
   }
   const updateNews = (id, data) => {
-    return News.findByIdAndUpdate(id, { $set: { name: data.name, content: data.content } })
+    return News.findByIdAndUpdate(id, { $set: { name: data.name, image: data.image, content: data.content } })
   }
   const addCommentNews = async (id, comment) => {
     const cmt = new Comment(comment)
     await cmt.save()
     return News.findByIdAndUpdate(id, { $addToSet: { comments: cmt } }, { useFindAndModify: false })
   }
-  return { addNews, getNews, getNewsId, deleteNews, updateNews, addCommentNews }
+  const searchNews = (search) => {
+    return News.find({ name: new RegExp(search, 'gi') })
+  }
+  return { addNews, getNews, getNewsId, deleteNews, updateNews, addCommentNews, searchNews }
 }
-

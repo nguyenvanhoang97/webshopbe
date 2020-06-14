@@ -1,11 +1,9 @@
 module.exports = (joi, mongoose) => {
   const newsSchema = new mongoose.Schema({
-    idProduct: { type: mongoose.Schema.Types.ObjectId, ref: 'product' },
-    amount: Number
+    idProduct: String
   })
   const schema = joi.object({
-    idProduct: joi.string().required(),
-    amount: joi.number()
+    idProduct: joi.string().required()
   })
   newsSchema.statics.validate = (obj) => {
     return schema.validate(obj)

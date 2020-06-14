@@ -31,7 +31,7 @@ const start = (container) => {
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(helmet())
     app.use(cors({
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true // enable set cookie
     }))
     app.set('trust proxy', 1)

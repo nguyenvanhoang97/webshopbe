@@ -1,7 +1,7 @@
 module.exports = container => {
   const { schemas } = container.resolve('models')
   const { serverHelper } = container.resolve('config')
-  const { User, Cart } = schemas
+  const { User, DetailCart } = schemas
   const addUser = (u) => {
     u.password = serverHelper.encryptPassword(u.password)
     const user = new User(u)
@@ -21,12 +21,52 @@ module.exports = container => {
     return User.findByIdAndDelete(id)
   }
   const updateUser = (id, value) => {
-    return User.findByIdAndUpdate(id, { $set: { name: value.name, username: value.username, isAdmin: value.isAdmin, password: value.password } }, {})
+    return User.findByIdAndUpdate(id, {
+      $set: {
+        name: value.name,
+        username: value.username,
+        password: value.password,
+        isAdmin: value.isAdmin
+      }
+    }, {})
   }
-  const addToCart = async (idUser, idProduct) => {
-    const cart = new Cart(idProduct)
-    await cart.save()
-    return User.findByIdAndUpdate(idUser, { $addToSet: { cart: cart } }, { useFindAndModify: false })
+  const addToCart = async (idUser, idDetail) => {
+    return User.findByIdAndUpdate(idUser, { $addToSet: { carts: idDetail } }, {
+      useFindAndModify: false,
+      returnOriginal: false
+    })
   }
-  return { addUser, login, getUser, deleteUser, getUserId, addToCart, updateUser }
+  const getCartUser = (id) => {
+    return User.findById(id).populate({
+      path: 'carts',
+      populate: {
+        path: 'idProduct'
+      }
+    })
+  }
+  const emptyCart = (idUser) => {
+    return User.findByIdAndUpdate(idUser, { carts: [] }, {
+      useFindAndModify: false,
+      returnOriginal: false
+    })
+  }
+  const searchUser = (search) => {
+    return User.find({ name: new RegExp(search, 'gi') })
+  }
+  const deleteCartUser = (id) => {
+    return DetailCart.findByIdAndDelete(id)
+  }
+  return {
+    addUser,
+    login,
+    getUser,
+    deleteUser,
+    getUserId,
+    addToCart,
+    updateUser,
+    getCartUser,
+    deleteCartUser,
+    emptyCart,
+    searchUser
+  }
 }

@@ -5,7 +5,6 @@ module.exports = (container) => {
   const { Cart } = schemas
   const addCart = async (req, res) => {
     try {
-      const user = req.user
       const cart = req.body
       const { error, value } = Cart.validate(cart)
       if (!error) {

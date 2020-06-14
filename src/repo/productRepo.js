@@ -11,6 +11,9 @@ module.exports = container => {
   const getProductId = (id) => {
     return Product.findById(id).populate('comments')
   }
+  const searchProduct = (search) => {
+    return Product.find({ name: new RegExp(search, 'gi') })
+  }
   const deleteProduct = (id) => {
     return Product.findByIdAndDelete(id)
   }
@@ -30,5 +33,5 @@ module.exports = container => {
     await cmt.save()
     return Product.findByIdAndUpdate(id, { $addToSet: { comments: cmt } }, { useFindAndModify: false })
   }
-  return { addProduct, getProduct, getProductId, deleteProduct, addCommentProduct, updateProduct }
+  return { addProduct, getProduct, getProductId, deleteProduct, addCommentProduct, updateProduct, searchProduct }
 }

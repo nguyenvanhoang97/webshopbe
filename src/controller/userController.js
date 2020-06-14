@@ -3,7 +3,7 @@ module.exports = (container) => {
   const logger = container.resolve('logger')
   const { schemas } = container.resolve('models')
   const { serverHelper } = container.resolve('config')
-  const { User } = schemas
+  const { User, DetailCart } = schemas
   const addUser = async (req, res) => {
     try {
       const user = req.body
@@ -81,13 +81,47 @@ module.exports = (container) => {
   }
   const addToCart = async (req, res) => {
     try {
-      const idProduct = req.params.id
-      const idUser = req.user._id
-      const user = await userRepo.addToCart(idUser, idProduct)
+      const { error, value } = DetailCart.validate(req.body)
+      if (error) {
+        return res.status(400).send({ ok: false, msg: error.message })
+      }
+      const detail = new DetailCart(value)
+      await detail.save()
+      const user = await userRepo.addToCart(req.user._id, detail._id)
       res.status(200).send(user)
     } catch (e) {
       res.status(500).send({ ok: false, msg: e.message })
     }
   }
-  return { addUser, login, getUser, deleteUser, getUserId, updateUser, addToCart }
+  const getCartUser = async (req, res) => {
+    try {
+      const id = req.user._id
+      const user = await userRepo.getCartUser(id)
+      res.status(200).send(user)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const deleteCartUser = async (req, res) => {
+    try {
+      const id = req.params.id
+      const user = await userRepo.deleteCartUser(id)
+      res.status(200).send(user)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  const searchUser = async (req, res) => {
+    try {
+      const search = req.query.q
+      if (!search) {
+        return res.status(400).send({ ok: false })
+      }
+      const user = await userRepo.searchUser(search)
+      res.status(200).send(user)
+    } catch (e) {
+      res.status(500).send({ ok: false, msg: e.message })
+    }
+  }
+  return { addUser, login, getUser, deleteUser, getUserId, updateUser, addToCart, getCartUser, deleteCartUser, searchUser }
 }
