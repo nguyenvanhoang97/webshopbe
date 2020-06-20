@@ -73,7 +73,7 @@ module.exports = (container) => {
       } else {
         const { error, value } = News.validate(news)
         if (!error) {
-          const news = await newsRepo.updateProduct(id, value)
+          const news = await newsRepo.updateNews(id, value)
           res.status(200).send(news)
         } else {
           res.status(400).send({ ok: false, msg: error.message })

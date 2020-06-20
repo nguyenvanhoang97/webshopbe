@@ -1,6 +1,6 @@
 module.exports = (container) => {
   const { serverHelper } = container.resolve('config')
-  const dontNeedAccessToken = ['/user/login', '/product', '/news', '/comment', '/user','/search']
+  const dontNeedAccessToken = ['/user/login', '/product', '/news', '/comment', '/user', '/search', '/cmt']
   const checkDontNeed = (url) => {
     for (let i = 0; i < dontNeedAccessToken.length; i++) {
       if ((new RegExp(dontNeedAccessToken[i], 'gi')).test(url)) {
